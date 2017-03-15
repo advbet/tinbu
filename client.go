@@ -7,7 +7,9 @@ import (
 	"time"
 )
 
-type StreamMessage struct {
+// GameUpdate holds updated value of a single lottery game object or error. If
+// field Error is not nil, value of Game field should be ignored.
+type GameUpdate struct {
 	Game  Game
 	Error error
 }
@@ -38,8 +40,8 @@ func (c *Client) Load(ctx context.Context) (map[string]Game, error) {
 //
 // Testing shows that stream will often send duplicate lottery game objects
 // because stream often remove and later re-introduce same game objects.
-func (c *Client) StreamUpdates(ctx context.Context, interval time.Duration) <-chan StreamMessage {
-	ch := make(chan StreamMessage)
+func (c *Client) StreamUpdates(ctx context.Context, interval time.Duration) <-chan GameUpdate {
+	ch := make(chan GameUpdate)
 
 	go func() {
 		defer close(ch)
@@ -54,17 +56,17 @@ func (c *Client) StreamUpdates(ctx context.Context, interval time.Duration) <-ch
 	return ch
 }
 
-func (c *Client) checkForUpdates(ctx context.Context, last map[string]Game, output chan<- StreamMessage) map[string]Game {
+func (c *Client) checkForUpdates(ctx context.Context, last map[string]Game, output chan<- GameUpdate) map[string]Game {
 	current, err := c.Load(ctx)
 	if err != nil {
-		output <- StreamMessage{Error: err}
+		output <- GameUpdate{Error: err}
 		return last
 	}
 	for id, game := range current {
 		if reflect.DeepEqual(game, last[id]) {
 			continue
 		}
-		output <- StreamMessage{Game: game}
+		output <- GameUpdate{Game: game}
 	}
 	return current
 }

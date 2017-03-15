@@ -138,6 +138,7 @@ func toGameMap(doc *document) (map[string]Game, error) {
 	return games, nil
 }
 
+// ParseXML decodes single lottery feed XML document.
 func ParseXML(r io.Reader) (map[string]Game, error) {
 	var doc document
 
