@@ -49,8 +49,13 @@ func (c *Client) StreamUpdates(ctx context.Context, interval time.Duration) <-ch
 		defer ticker.Stop()
 
 		last := c.checkForUpdates(ctx, nil, ch)
-		for range ticker.C {
-			last = c.checkForUpdates(ctx, last, ch)
+		for {
+			select {
+			case <-ctx.Done():
+				return
+			case <-ticker.C:
+				last = c.checkForUpdates(ctx, last, ch)
+			}
 		}
 	}()
 	return ch
