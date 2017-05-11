@@ -4,6 +4,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io"
+	"strings"
 	"time"
 
 	"golang.org/x/text/encoding/charmap"
@@ -81,7 +82,9 @@ func parseKinkyTime(str string) (time.Time, error) {
 	if err != nil {
 		return time.Time{}, err
 	}
-	return time.ParseInLocation("Mon 2006-01-02 15:04:05 EST", str, loc)
+	str = strings.TrimSuffix(str, " EST")
+	str = strings.TrimSuffix(str, " ET")
+	return time.ParseInLocation("Mon 2006-01-02 15:04:05", str, loc)
 }
 
 func toGameMap(doc *document) (map[string]Game, error) {
