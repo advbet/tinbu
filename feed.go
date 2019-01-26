@@ -84,6 +84,7 @@ func parseKinkyTime(str string) (time.Time, error) {
 	}
 	str = strings.TrimSuffix(str, " EST")
 	str = strings.TrimSuffix(str, " ET")
+	str = strings.TrimSuffix(str, " $s")
 	return time.ParseInLocation("Mon 2006-01-02 15:04:05", str, loc)
 }
 

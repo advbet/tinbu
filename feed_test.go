@@ -41,6 +41,13 @@ func TestParseXML(t *testing.T) {
                         <nextdraw_date>05/11/2017</nextdraw_date>
                 </game>
 	</StateProv>
+        <StateProv stateprov_name="Atlantic Canada" stateprov_id="AC" country="Canada">
+                <game game_id="203" game_name="Lotto Max" update_time="FRI 2019-01-25 23:44:35 $s">
+                        <lastdraw_date>01/25/2019</lastdraw_date>
+                        <lastdraw_numbers>06-12-20-24-40-42-47, Bonus: 44</lastdraw_numbers>
+                        <nextdraw_date>02/01/2019</nextdraw_date>
+                </game>
+	</StateProv>
 </allgames>`
 	expected := map[string]Game{
 		"113-10/16/2007": Game{
@@ -80,6 +87,17 @@ func TestParseXML(t *testing.T) {
 			LastDrawDate:    time.Date(2017, 05, 10, 0, 0, 0, 0, time.UTC),
 			LastDrawNumbers: "03-19-22-31-32-34, Bonus: 11",
 			NextDrawDate:    time.Date(2017, 05, 11, 0, 0, 0, 0, time.UTC),
+		},
+		"203-01/25/2019": Game{
+			ID:   "203",
+			Name: "Lotto Max",
+			StateProvs: []StateProv{
+				{"AC", "Atlantic Canada", "Canada"},
+			},
+			UpdateTime:      time.Date(2019, 01, 26, 04, 44, 35, 0, time.UTC),
+			LastDrawDate:    time.Date(2019, 01, 25, 0, 0, 0, 0, time.UTC),
+			LastDrawNumbers: "06-12-20-24-40-42-47, Bonus: 44",
+			NextDrawDate:    time.Date(2019, 02, 01, 0, 0, 0, 0, time.UTC),
 		},
 	}
 	r := bytes.NewBufferString(xml)
