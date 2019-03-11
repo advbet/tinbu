@@ -48,6 +48,14 @@ func TestParseXML(t *testing.T) {
                         <nextdraw_date>02/01/2019</nextdraw_date>
                 </game>
 	</StateProv>
+	<StateProv stateprov_name="Arkansas" stateprov_id="AR" country="USA">
+		<game game_id="101" game_name="Powerball" update_time="SAT 2019-03-09 23:02:18 EST">
+			<lastdraw_date>03/09/2019</lastdraw_date>
+			<lastdraw_numbers>05-06-45-55-59, Powerball: 14, Power Play: 3</lastdraw_numbers>
+			<nextdraw_date>03/13/2019</nextdraw_date>
+			<jackpot date="03/13/2019">448000000</jackpot>
+		</game>
+	</StateProv>
 </allgames>`
 	expected := map[string]Game{
 		"113-10/16/2007": Game{
@@ -98,6 +106,21 @@ func TestParseXML(t *testing.T) {
 			LastDrawDate:    time.Date(2019, 01, 25, 0, 0, 0, 0, time.UTC),
 			LastDrawNumbers: "06-12-20-24-40-42-47, Bonus: 44",
 			NextDrawDate:    time.Date(2019, 02, 01, 0, 0, 0, 0, time.UTC),
+		},
+		"101-03/09/2019": Game{
+			ID:   "101",
+			Name: "Powerball",
+			StateProvs: []StateProv{
+				{"AR", "Arkansas", "USA"},
+			},
+			UpdateTime:      time.Date(2019, 3, 10, 4, 2, 18, 0, time.UTC),
+			LastDrawDate:    time.Date(2019, 3, 9, 0, 0, 0, 0, time.UTC),
+			LastDrawNumbers: "05-06-45-55-59, Powerball: 14, Power Play: 3",
+			NextDrawDate:    time.Date(2019, 3, 13, 0, 0, 0, 0, time.UTC),
+			Jackpot: &Jackpot{
+				Date:   time.Date(2019, 3, 13, 0, 0, 0, 0, time.UTC),
+				Amount: 448000000,
+			},
 		},
 	}
 	r := bytes.NewBufferString(xml)
