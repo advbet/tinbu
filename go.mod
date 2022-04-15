@@ -1,6 +1,6 @@
 module github.com/advbet/tinbu
 
-go 1.18
+go 1.17
 
 require (
 	bitbucket.org/advbet/tinbu v0.0.0-20190311110933-6561264a1b66
