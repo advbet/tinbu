@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"log"
 
-	"bitbucket.org/advbet/tinbu"
+	"github.com/advbet/tinbu"
 )
 
 func main() {
