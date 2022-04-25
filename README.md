@@ -14,7 +14,7 @@ import (
         "context"
         "fmt"
 
-        "bitbucket.org/advbet/tinbu"
+        "github.com/advbet/tinbu"
 )
 
 func main() {
@@ -38,7 +38,7 @@ import (
         "net/http"
         "time"
 
-        "bitbucket.org/advbet/tinbu"
+        "github.com/advbet/tinbu"
 )
 
 func main() {
